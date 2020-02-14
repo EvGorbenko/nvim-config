@@ -63,10 +63,10 @@ Plug 'haya14busa/incsearch.vim' " Better search highlighting
 Plug 'kshenoy/vim-signature' " For highlighting marks
 Plug 'vim-scripts/matchit.zip' 
 
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+"Plug 'autozimu/LanguageClient-neovim', {
+    "\ 'branch': 'next',
+    "\ 'do': 'bash install.sh',
+    "\ }
 
 " Language Support
 " JavaScript 
