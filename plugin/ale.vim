@@ -1,20 +1,20 @@
 let g:ale_linters = {
-\   'javascript': ['eslint', 'flow'],
+\   'javascript': ['eslint', 'prettier'],
 \   'typescript': ['eslint', 'tsserver', 'prettier'],
-\   'html': []
+\   'html': [],
 \  }
 
 let g:ale_linter_aliases = {
-\  'typescript.tsx': 'typescript',
-\  'typescriptreact': 'typescript'
+\   'typescript.tsx': 'typescript',
+\   'typescriptreact': 'typescript',
 \  }
 
 let g:ale_fixers = {
-\   'javascript': ['eslint'],
-\   'css': ['eslint'],
-\   'typescript': ['tslint', 'prettier'],
-\   'typescriptreact': ['tslint', 'prettier'],
-\   'typescript.tsx': ['tslint', 'prettier']
+\   'javascript': ['eslint', 'prettier'],
+\   'css': ['eslint', 'prettier'],
+\   'typescript': ['eslint', 'prettier'],
+\   'typescriptreact': ['eslint', 'prettier'],
+\   'typescript.tsx': ['eslint', 'prettier'],
 \   }
 
 nmap <leader>d <Plug>(ale_fix)
@@ -28,5 +28,5 @@ hi ALEWarningSign guifg=#F2C38F
 let g:ale_fix_on_save = 1
 
 " Use CTRL-k and CTRL-j to navigate errors
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
+nmap <C-k> <Plug>(ale_previous_wrap)
+nmap <C-j> <Plug>(ale_next_wrap)

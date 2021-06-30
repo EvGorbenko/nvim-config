@@ -3,9 +3,7 @@ call plug#begin()
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 " Navigation
-set runtimepath^=~/.vim/bundle/ctrlp.vim 
-let g:ctrlp_root_markers = ['.ctrlp', 'package.json', '.gitignore']
-set wildignore+=*/node_modules/*,*/dist/*
+set wildignore+=*/node_modules/*,*/dist/*,*/public/*
 " Basic setup
 set number
 set smartindent
@@ -47,11 +45,10 @@ Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme='base16'
 
 set t_Co=256
-Plug 'sonph/onehalf', {'rtp': 'vim/'}
+Plug 'flrnd/candid.vim'
 
 " Syntax highlight
 Plug 'janko-m/vim-test'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 Plug 'raimondi/delimitmate' " Closing brackets
 let g:delimitMate_expand_cr = 4
@@ -80,7 +77,6 @@ Plug 'cdata/vim-tagged-template'
 " TypeScript
 Plug 'Shougo/denite.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'sheerun/vim-polyglot'
 
 " Rust
 Plug 'rust-lang/rust.vim'
@@ -88,18 +84,25 @@ Plug 'rust-lang/rust.vim'
 " SCSS
 au BufRead,BufNewFile *.css set filetype=scss
 
-" Search
-Plug 'brooth/far.vim'
-let g:far#sources = {
-    \   'ag': {
-    \       'args': {
-    \           'cmd': ['ag', '--nogroup', '--column', '--nocolor', '--silent',
-    \                   '--max-count={limit}', '{pattern}',
-    \                   '--file-search-regex={file_mask}',
-    \                   '--ignore=node_modules']
-    \       }}}
 " Navigation
 Plug 'easymotion/vim-easymotion'
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+nmap s <Plug>(easymotion-overwin-f)
+" or
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Turn on case-insensitive feature
+let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+
 
 " Project tree
 Plug 'scrooloose/nerdtree'
@@ -108,6 +111,7 @@ nnoremap <silent> <Leader>v :NERDTreeFind<CR>
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeHijackNetrw = 0
+let NERDTreeShowHidden=1
 
 " GIT
 Plug 'tpope/vim-fugitive'
@@ -118,10 +122,19 @@ Plug 'w0rp/ale'
 " Async jobs
 Plug 'skywind3000/asyncrun.vim'
 
-" autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+let $FZF_DEFAULT_COMMAND = 'ag --ignore node_modules --ignore-dir ".*public" -g ""'
 
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+
+nnoremap <C-P> :Files<CR>
+nnoremap <C-O> :Ag<CR>
+
+autocmd VimEnter * command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>, '--skip-vcs-ignores --ignore=node_modules --ignore-dir=public ', <bang>0)
+
+autocmd! FileType fzf set laststatus=0 noshowmode noruler
+  \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
 " Show screen on start
 Plug 'mhinz/vim-startify'
@@ -130,6 +143,15 @@ let g:startify_session_persistence = 0
 " Autosave
 Plug 'sjl/vitality.vim'
 au FocusLost * :wa
+
+" Time/Efficiency Tracker
+Plug 'wakatime/vim-wakatime'
+
+" Wrapping text
+Plug 'tpope/vim-surround'
+
+" Editor Config
+Plug 'editorconfig/editorconfig-vim'
 
 call plug#end()
 
@@ -142,7 +164,7 @@ if has("termguicolors")  " set true colors
     set termguicolors
   endif
 set background=dark
-colorscheme onehalfdark
+colorscheme candid
 
 " Section: Local-Machine Config
 
